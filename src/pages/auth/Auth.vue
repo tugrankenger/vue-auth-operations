@@ -1,0 +1,3 @@
+<template>
+  <!--Auth operations-->
+</template>
