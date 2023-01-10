@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid">
+  <div class="container">
     <div class="row my-5">
       <h3>About Page</h3>
       <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis amet sapiente ratione? Necessitatibus eligendi aut illo nesciunt cupiditate officia beatae nobis accusamus, eos numquam tenetur ullam minima dolorem veritatis nulla!</p>

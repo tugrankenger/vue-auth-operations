@@ -3,12 +3,12 @@
     <a href="javascript:void(0)" class="navbar-brand px-3">Auth Operations</a>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto">
-        <li class="nav-item" tag="li">
+        <router-link class="nav-item" tag="li" :to="{name:'HomePage'}" style="text-decoration: none">
           <a href="javascript:void(0)" class="nav-link">Home</a>
-        </li>
-        <li class="nav-item" tag="li">
+        </router-link>
+        <router-link class="nav-item" tag="li" :to="{name:'About'}" style="text-decoration: none">
           <a href="javascript:void(0)" class="nav-link">About</a>
-        </li>
+        </router-link>
       </ul>
       <ul class="navbar-nav px-3" :class="logoutClass">
         <li class="nav-item">

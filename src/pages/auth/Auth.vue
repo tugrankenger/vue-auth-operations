@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import axios from 'axios'
   export default{
     data(){
       return{
@@ -40,7 +41,15 @@
     },
     methods:{
       onSubmit(){
-        alert(this.user)
+        let apiKey = this.$store.getters.getApiKey
+        let payload = {
+          email: this.user.email,
+          password: this.user.password,
+          returnSecureToken: true
+        }
+        axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${apiKey}`,payload).then((res)=>{
+          console.log(res)
+        })
       }
     }
   }
