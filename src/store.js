@@ -1,5 +1,6 @@
 import { createStore } from "vuex"
 import axios from "axios"
+import router from './router'
 
 const store = createStore({
   state:{
@@ -28,14 +29,21 @@ const store = createStore({
           console.log(res)
           commit('setToken',res.data.idToken)
           localStorage.setItem('token', res.data.idToken)
+          dispatch('setTimeoutTimer', +res.data.expiresIn)
         }).catch(err=>{
           alert(err.response.data.error.message)
           console.log(err.response.data.error.message)
         })
     },
-
+    setTimeoutTimer({dispatch},expiresIn){
+      setTimeout(()=>{
+        dispatch('logout')
+      },expiresIn)
+    },
     logout({commit, dispatch, state}){
       commit('clearToken')
+      localStorage.removeItem('token')
+      router.push({name:'Auth'})
     }
   },
   getters:{

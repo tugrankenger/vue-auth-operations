@@ -25,8 +25,6 @@ export default{
     logout(){
       // this.$store.commit('clearToken')
       this.$store.dispatch('logout')
-      this.$router.push({name:'Auth'})
-      localStorage.clear()
     }
   },
   computed:{
