@@ -1,4 +1,5 @@
 import { createStore } from "vuex"
+import axios from "axios"
 
 const store = createStore({
   state:{
@@ -14,16 +15,35 @@ const store = createStore({
     }
   },
   actions:{
-    login({commit, dispatch, state},authData){
-
+    initAuth({commit,dispatch, state}){
+      commit('setToken', localStorage.getItem('token') == null ? '' : localStorage.getItem('token'))
     },
-    logout({commit, dispatch, state}){
+    login({commit, dispatch, state},authData){
+      let apiKey = store.getters.getApiKey
+        let authLink = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key="
+        if(authData.isUser){
+          authLink = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key="
+        }
+        return axios.post(`${authLink}${apiKey}`,authData.payload).then((res)=>{
+          console.log(res)
+          commit('setToken',res.data.idToken)
+          localStorage.setItem('token', res.data.idToken)
+        }).catch(err=>{
+          alert(err.response.data.error.message)
+          console.log(err.response.data.error.message)
+        })
+    },
 
+    logout({commit, dispatch, state}){
+      commit('clearToken')
     }
   },
   getters:{
     getApiKey(state){
       return state.fbApiKey
+    },
+    isAuthenticated(state){
+      return state.token !== ''
     }
   }
 })

@@ -41,21 +41,13 @@ import axios from 'axios'
     },
     methods:{
       onSubmit(){
-        let apiKey = this.$store.getters.getApiKey
-        let authLink = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key="
-        if(this.isUser){
-          authLink = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key="
-        }
         let payload = {
           email: this.user.email,
           password: this.user.password,
           returnSecureToken: true
         }
-        axios.post(`${authLink}${apiKey}`,payload).then((res)=>{
-          console.log(res)
-        }).catch(err=>{
-          alert(err.response.data.error.message)
-          console.log(err.response.data.error.message)
+        this.$store.dispatch('login', {payload, isUser: this.isUser}).then((res)=>{
+          this.$router.push({name:'HomePage'})
         })
       }
     }

@@ -23,13 +23,16 @@
 export default{
   methods:{
     logout(){
-
+      // this.$store.commit('clearToken')
+      this.$store.dispatch('logout')
+      this.$router.push({name:'Auth'})
+      localStorage.clear()
     }
   },
   computed:{
     logoutClass(){
       return{
-        'd-none': false
+        'd-none': !this.$store.getters.isAuthenticated
       }
     }
   }

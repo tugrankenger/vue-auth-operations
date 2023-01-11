@@ -10,6 +10,9 @@ import Header from "./components/Header.vue"
   export default{
     components:{
       appHeader: Header,
+    },
+    mounted(){
+      this.$store.dispatch('initAuth')
     }
   }
 </script>
