@@ -17,7 +17,20 @@ const store = createStore({
   },
   actions:{
     initAuth({commit,dispatch, state}){
-      commit('setToken', localStorage.getItem('token') == null ? '' : localStorage.getItem('token'))
+      let token = localStorage.getItem('token')
+      if(token){
+        let expirationDate = localStorage.getItem('expirationDate')
+        let time = new Date().getTime()
+        if(time>= +expirationDate){
+          console.log("token time is over")
+          dispatch('logout')
+        }else{
+        commit('setToken',token)
+        let timerSecond = +expirationDate - time
+        console.log(timerSecond)
+        dispatch('setTimeoutTimer',timerSecond)
+        }
+      }
     },
     login({commit, dispatch, state},authData){
       let apiKey = store.getters.getApiKey
@@ -29,7 +42,8 @@ const store = createStore({
           console.log(res)
           commit('setToken',res.data.idToken)
           localStorage.setItem('token', res.data.idToken)
-          dispatch('setTimeoutTimer', +res.data.expiresIn)
+          localStorage.setItem('expirationDate', new Date().getTime()+ +res.data.expiresIn*1000)
+          dispatch('setTimeoutTimer', +res.data.expiresIn*1000)
         }).catch(err=>{
           alert(err.response.data.error.message)
           console.log(err.response.data.error.message)
